@@ -118,9 +118,6 @@ func NewFromFlags(fs *pflag.FlagSet, out, contentField string, cols config.Colum
 	if reverse {
 		filters = append(filters, filter.Reverse{})
 	}
-	if len(filters) > 0 {
-		filters = slices.Insert(filters, 0, filter.Interface(filter.JSON{}))
-	}
 
 	style, _ := fs.GetString("style")
 	style = getStyle(style)
@@ -196,6 +193,9 @@ func NewFromFlags(fs *pflag.FlagSet, out, contentField string, cols config.Colum
 		fmter = format.NewPrintPath(fmter)
 	}
 
+	if len(filters) > 0 {
+		filters = slices.Insert(filters, 0, filter.Interface(filter.JSON{}))
+	}
 	writeTo, _ := fs.GetString("out-file")
 	if out == "raw" || out == "rawyaml" {
 		return fmter, &Paginated{Read: read.NewRaw(), Format: fmter, Filters: filters, WriteTo: writeTo}, nil
