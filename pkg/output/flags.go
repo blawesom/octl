@@ -173,6 +173,7 @@ func NewFromFlags(fs *pflag.FlagSet, out, contentField string, cols config.Colum
 
 	switch {
 	case doWatch && out == "table":
+		filters = append(filters, filter.NewDisappear())
 		filters = append(filters, filter.NewDedup(false))
 		if elapsed {
 			filters = append(filters, filter.NewElapsed())

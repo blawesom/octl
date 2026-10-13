@@ -58,8 +58,8 @@ func (j *Dedup) Filter(ctx context.Context, seq iter.Seq[result.Result]) iter.Se
 func NewDedup(resetOnNew bool) *Dedup {
 	return &Dedup{
 		resetOnNew: resetOnNew,
-		last:       make([][shaSize]byte, dedupBuffer),
-		current:    make([][shaSize]byte, dedupBuffer),
+		last:       make([][shaSize]byte, 0, dedupBuffer),
+		current:    make([][shaSize]byte, 0, dedupBuffer),
 	}
 }
 
