@@ -14,8 +14,9 @@ var (
 	Yellow = lipgloss.NewStyle().Foreground(lipgloss.Color("184"))
 	Red    = lipgloss.NewStyle().Foreground(lipgloss.Color("202"))
 
-	Faint = lipgloss.NewStyle().Faint(true)
-	Error = lipgloss.NewStyle().Foreground(lipgloss.Color("202")).Bold(true)
+	Faint         = lipgloss.NewStyle().Faint(true)
+	Error         = lipgloss.NewStyle().Foreground(lipgloss.Color("202")).Bold(true)
+	Strikethrough = lipgloss.NewStyle().Faint(true).Strikethrough(true)
 )
 
 func Theme() *huh.Theme {

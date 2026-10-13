@@ -38,24 +38,25 @@ func (c *Column) compile() error {
 	return nil
 }
 
-func (c *Column) Get(v any) (any, error) {
+func (c *Column) Get(v any, isJSON bool) (any, error) {
 	if c.query == nil {
 		err := c.compile()
 		if err != nil {
 			return nil, fmt.Errorf("compile: %w", err)
 		}
 	}
-	buf, err := json.Marshal(v)
-	if err != nil {
-		return nil, fmt.Errorf("jq to JSON: %w", err)
+	if !isJSON {
+		buf, err := json.Marshal(v)
+		if err != nil {
+			return nil, fmt.Errorf("jq to JSON: %w", err)
+		}
+		err = json.Unmarshal(buf, &v)
+		if err != nil {
+			return nil, fmt.Errorf("jq from JSON: %w", err)
+		}
 	}
-	var raw any
-	err = json.Unmarshal(buf, &raw)
-	if err != nil {
-		return nil, fmt.Errorf("jq from JSON: %w", err)
-	}
-	debug.Println(fmt.Sprintf("%+v", raw))
-	iter := c.query.Run(raw)
+	debug.Println(fmt.Sprintf("%+v", v))
+	iter := c.query.Run(v)
 	var vv []any
 	for {
 		v, ok := iter.Next()
