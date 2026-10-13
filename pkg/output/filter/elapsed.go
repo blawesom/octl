@@ -6,9 +6,11 @@ package filter
 
 import (
 	"context"
+	"fmt"
 	"iter"
 	"time"
 
+	"github.com/outscale/octl/pkg/debug"
 	"github.com/outscale/octl/pkg/output/result"
 )
 
@@ -48,6 +50,8 @@ func (e Elapsed) Filter(ctx context.Context, seq iter.Seq[result.Result]) iter.S
 						return
 					}
 				}
+			default:
+				debug.Println(fmt.Sprintf("invalid type %T, no elapsed", v.Ok))
 			}
 			if !yield(v) {
 				return
